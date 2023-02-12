@@ -24,8 +24,6 @@ __webpack_require__(/*! ./carausel.js */ "./resources/js/carausel.js");
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
 /* provided dependency */ var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-// const { getOption } = require("browser-sync");
-
 $(window).on("load", function () {
   $(".owl-carousel-dual").owlCarousel({
     loop: true,
@@ -108,6 +106,7 @@ function displayJson(startNum, endNum) {
         containerCard.append(div);
       });
       cardLoad.append(cardTemplate.content.cloneNode(true));
+      cardLoad.append(cardTemplate.content.cloneNode(true));
       renderCard();
     }
     displayData(startNum, endNum);
@@ -173,7 +172,7 @@ function lazyGetData() {
 }
 var startNum = 0;
 var endNum = 10;
-// displayJson(startNum, endNum);
+displayJson(startNum, endNum);
 // lazyGetData();
 
 /***/ }),
@@ -11195,6 +11194,45 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/owl.carousel/dist/assets/owl.carousel.min.css":
+/*!********************************************************************!*\
+  !*** ./node_modules/owl.carousel/dist/assets/owl.carousel.min.css ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./node_modules/owl.carousel/dist/assets/owl.theme.default.min.css":
+/*!*************************************************************************!*\
+  !*** ./node_modules/owl.carousel/dist/assets/owl.theme.default.min.css ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/css/custom.css":
+/*!**********************************!*\
+  !*** ./resources/css/custom.css ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./node_modules/owl.carousel/dist/owl.carousel.min.js":
 /*!************************************************************!*\
   !*** ./node_modules/owl.carousel/dist/owl.carousel.min.js ***!
@@ -11311,6 +11349,7 @@ animateIn:!1},e.prototype.swap=function(){if(1===this.core.settings.items&&a.sup
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
 /******/ 			"/js/app": 0,
+/******/ 			"css/app": 0,
 /******/ 			"css/tailwindcss/app": 0
 /******/ 		};
 /******/ 		
@@ -11361,8 +11400,11 @@ animateIn:!1},e.prototype.swap=function(){if(1===this.core.settings.items&&a.sup
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/tailwindcss/app"], () => (__webpack_require__("./resources/js/app.js")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/tailwindcss/app"], () => (__webpack_require__("./resources/css/app.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/tailwindcss/app"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/tailwindcss/app"], () => (__webpack_require__("./resources/css/app.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/tailwindcss/app"], () => (__webpack_require__("./node_modules/owl.carousel/dist/assets/owl.carousel.min.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/tailwindcss/app"], () => (__webpack_require__("./node_modules/owl.carousel/dist/assets/owl.theme.default.min.css")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app","css/tailwindcss/app"], () => (__webpack_require__("./resources/css/custom.css")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

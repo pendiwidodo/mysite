@@ -1,5 +1,3 @@
-// const { getOption } = require("browser-sync");
-
 $(window).on("load", function () {
     $(".owl-carousel-dual").owlCarousel({
         loop: true,
@@ -83,6 +81,7 @@ function displayJson(startNum, endNum) {
                     containerCard.append(div);
                 });
                 cardLoad.append(cardTemplate.content.cloneNode(true));
+                cardLoad.append(cardTemplate.content.cloneNode(true));
                 renderCard();
             }
             displayData(startNum, endNum);
@@ -150,5 +149,5 @@ function lazyGetData() {
 }
 let startNum = 0;
 let endNum = 10;
-// displayJson(startNum, endNum);
+displayJson(startNum, endNum);
 // lazyGetData();

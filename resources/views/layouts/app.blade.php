@@ -12,7 +12,7 @@
     <title>HomePage {{ $title }}</title>
 </head>
 
-<body class="flex flex-col relative max-w-screen bg-white">
+<body class="flex flex-col relative max-w-screen bg-green-500">
     @include('partials.navbar')
     <div class="container flex flex-col space-y-4 mx-auto my-4">
         @yield('container')

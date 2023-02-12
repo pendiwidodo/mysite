@@ -11,12 +11,24 @@ const mix = require("laravel-mix");
  */
 
 // KHUSUS TAILWINDCSS
-mix.js("resources/js/app.js", "public/js").postCss("resources/css/app.css", "public/css/tailwindcss/app.css", [require("tailwindcss"),])
-// CUSTOM AND OWL CARAUSEL.css("./node_modules/owl.carousel/dist/assets/owl.carousel.min.css", "public/css/app.css").css("./node_modules/owl.carousel/dist/assets/owl.theme.default.min.css", "public/css/app.css").css("resources/css/custom.css", "public/css/app.css");
+mix.js("resources/js/app.js", "public/js")
+    .postCss("resources/css/app.css", "public/css/tailwindcss/app.css", [
+        require("tailwindcss"),
+    ])
+    // CUSTOM AND OWL CARAUSEL
+    .css(
+        "./node_modules/owl.carousel/dist/assets/owl.carousel.min.css",
+        "public/css/app.css"
+    )
+    .css(
+        "./node_modules/owl.carousel/dist/assets/owl.theme.default.min.css",
+        "public/css/app.css"
+    )
+    .css("resources/css/custom.css", "public/css/app.css");
 
 // jquery caller
 mix.autoload({
-    jquery: ["$", "window.$", "window.jQuery"]
+    jquery: ["$", "window.$", "window.jQuery"],
 });
 
 const domain = "mysite.test";
@@ -27,7 +39,7 @@ mix.browserSync({
     host: domain,
     https: {
         key: homedir + "/.valet/Certificates/" + domain + ".key",
-        cert: homedir + "/.valet/Certificates/" + domain + ".crt"
+        cert: homedir + "/.valet/Certificates/" + domain + ".crt",
     },
     notify: false, // Enable or disable notifications
 });

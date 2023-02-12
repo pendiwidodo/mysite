@@ -4,10 +4,12 @@
 <article class="flex flex-col space-y-4 my-10 mx-auto w-[90%] lg:w-[70%] ">
     <div class="container_card mx-auto grid w-[60%] gap-8 grid-cols-1 md:w-[70%] lg:w-full lg:grid-cols-2">
         <template id="card_template">
-            <div id="card_items_template" class="flex items-center relative overflow-hidden shadow-lg rounded-lg h-full w-full loading">
+            <div id="card_items_template"
+                class="flex items-center relative overflow-hidden shadow-lg rounded-lg h-full w-full loading">
                 <div class="skeleton_animasi animate-pulse flex flex-row space-x-3 w-full relative m-2">
                     <div class="skeleton_gambar bg-gray-300 relative h-32 w-1/2 rounded-md shrink-0  m-2">
-                        <img id="gambar_content" class="lazy hidden h-full w-full rounded-lg shadow-lg" data-src="" src="" alt="" loading="lazy">
+                        <img id="gambar_content" class="lazy hidden h-full w-full rounded-lg shadow-lg" data-src=""
+                            src="" alt="" loading="lazy">
                     </div>
                     <div class="flex flex-col space-y-3 w-1/2 m-2">
                         <div class="skeleton_judul bg-gray-300 w-full h-12 rounded-md shrink-0 line-clamp-2">
@@ -30,7 +32,8 @@
             </div>
         </template>
     </div>
-    <div class="containerLoad bg-gray-100 mx-auto grid w-[60%] gap-8 grid-cols-1 md:w-[70%] lg:w-full lg:grid-cols-2"></div>
+    <div class="containerLoad bg-green-100 mx-auto grid w-[60%] gap-8 grid-cols-1 md:w-[70%] lg:w-full lg:grid-cols-2">
+    </div>
 
 </article>
 @endsection
