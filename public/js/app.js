@@ -24,7 +24,8 @@ __webpack_require__(/*! ./carausel.js */ "./resources/js/carausel.js");
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
 /* provided dependency */ var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-// const {forEach} = require("lodash");
+// const { getOption } = require("browser-sync");
+
 $(window).on("load", function () {
   $(".owl-carousel-dual").owlCarousel({
     loop: true,
@@ -84,86 +85,43 @@ $(window).on("load", function () {
     }
   });
 });
-
+var containerCard = document.querySelector(".container_card");
+var cardTemplate = document.getElementById("card_template");
+var cardLoad = document.querySelector(".containerLoad");
 //berfungsi untuk memparsing dan menampilkan data content
-displayJson = function displayJson(end) {
+function displayJson(startNum, endNum) {
   //mengambil data dari json
   fetch("js/data.json").then(function (response) {
     return response.json();
   }).then(function (data) {
-    var containerCard = document.querySelector(".container_card");
-    var cardTemplate = document.getElementById("card_template");
-    containerCard.innerHTML = "";
-    //memotong dan menampilkan data
-    function parsingData(end) {
-      var start = 0;
-      if (end <= data.length) {
-        //memotong data dari json
-        var dataSlice = data.slice(start, end);
-        //mentampilkan data hasil potongan data
-        dataSlice.forEach(function (dataSlice) {
-          var div = cardTemplate.content.cloneNode(true);
-          div.getElementById("judul_content").textContent = dataSlice.title;
-          containerCard.append(div);
-        });
-      } else {
-        var dataLength = data.length;
-        end = dataLength;
-        parsingData(end);
-      }
+    function displayData(startNum, endNum) {
+      // console.log({ startNum, endNum });
+      // const startNum = 0;
+      // const endNum = 2;
+      var dataSlice = data.slice(startNum, endNum);
+      dataSlice.forEach(function (data) {
+        // console.log(data);
+        var div = cardTemplate.content.cloneNode(true);
+        var getId = div.getElementById("card_items_template");
+        getId.classList.replace("loading", "loaded");
+        div.getElementById("judul_content").textContent = data.id;
+        containerCard.append(div);
+      });
+      cardLoad.append(cardTemplate.content.cloneNode(true));
+      renderCard();
     }
-    parsingData(end);
-    // for (let i = 0; i < 2; i++) {
-    // let dupe = containerCard.append(
-    //     cardTemplate.content.cloneNode(true)
-    // );
-    //     console.log(dupe);
-    // }
-
-    // data.forEach((data) => {
-    //     const div = cardTemplate.content.cloneNode(true);
-    //     div.getElementById("judul_content").textContent = data.title;
-    //     div.getElementById("gambar_content").setAttribute(
-    //         "data-src",
-    //         `` + data.coverImage + ``
-    //     );
-    // div.getElementById("gambar_content").src = data.coverImage;
-    // div.getElementById("link_content").href = data.link;
-    // div.getElementById("creator_content").textContent = data.creator;
-    // div.getElementById("created_at").textContent = data.details;
-    // containerCard.append(div);
-    // window.addEventListener("load", () => {
-    //     renderCard();
-    // })
-    // setTimeout(function () {
-    //     renderCard();
-    // }, 3000);
-    // });
+    displayData(startNum, endNum);
   });
-};
-
-renderCard = function renderCard() {
-  var skeletons_animasi = document.querySelectorAll(".skeleton_animasi");
-  skeletons_animasi.forEach(function (skeleton_animasi) {
-    skeleton_animasi.classList.remove("animate-pulse");
-    var skeletons_remover = skeleton_animasi.querySelectorAll(".hidden,.bg-gray-300");
-    skeletons_remover.forEach(function (skeletons_remover) {
-      skeletons_remover.classList.remove("hidden");
-      skeletons_remover.classList.remove("bg-gray-300");
-    });
-  });
-};
-displayJson(3);
-$(window).on("load", function () {
-  var targets = document.querySelectorAll(".skeleton_gambar");
+}
+lazyLoadImg = function lazyLoadImg() {
+  var targets = document.querySelectorAll(".loaded");
   targets.forEach(function (target) {
+    //menggambil data image
     var targetimg = target.querySelectorAll("img");
     var lazyLoad = function lazyLoad(target) {
       var io = new IntersectionObserver(function (entries, observer) {
-        // var end = 0;
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
-            // console.log(entry);
             var img = entry.target;
             var src = img.getAttribute("data-src");
             img.setAttribute("src", src);
@@ -175,10 +133,48 @@ $(window).on("load", function () {
     };
     targetimg.forEach(lazyLoad);
   });
-});
-setInterval(function () {
-  renderCard();
-}, "1000");
+};
+renderCard = function renderCard() {
+  var loaded = document.querySelectorAll(".loaded");
+  loaded.forEach(function (loaded) {
+    var skeleton_animasi = loaded.querySelectorAll(".skeleton_animasi");
+    skeleton_animasi.forEach(function (skeletons_remover) {
+      skeletons_remover.classList.remove("animate-pulse");
+      var skeleton_remover_class = skeletons_remover.querySelectorAll(".hidden,.bg-gray-300");
+      skeleton_remover_class.forEach(function (skeleton_remover_class) {
+        skeleton_remover_class.classList.remove("hidden");
+        skeleton_remover_class.classList.remove("bg-gray-300");
+      });
+    });
+  });
+};
+function lazyGetData() {
+  var target = document.querySelector(".containerLoad");
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        var delskeleton = function delskeleton() {
+          var containerLoad = document.querySelector(".containerLoad");
+          containerLoad.innerHTML = "";
+        };
+        startNum += 10;
+        endNum += 10;
+        console.log(startNum, endNum);
+        displayJson(startNum, endNum);
+        setTimeout(function () {
+          delskeleton();
+        }, 3000);
+        // observer.disconnect();
+      }
+    });
+  });
+
+  observer.observe(target);
+}
+var startNum = 0;
+var endNum = 10;
+// displayJson(startNum, endNum);
+// lazyGetData();
 
 /***/ }),
 

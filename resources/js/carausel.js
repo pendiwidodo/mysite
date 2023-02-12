@@ -1,4 +1,5 @@
-// const {forEach} = require("lodash");
+// const { getOption } = require("browser-sync");
+
 $(window).on("load", function () {
     $(".owl-carousel-dual").owlCarousel({
         loop: true,
@@ -59,82 +60,43 @@ $(window).on("load", function () {
         },
     });
 });
-
+const containerCard = document.querySelector(".container_card");
+const cardTemplate = document.getElementById("card_template");
+const cardLoad = document.querySelector(".containerLoad");
 //berfungsi untuk memparsing dan menampilkan data content
-displayJson = (end) => {
+function displayJson(startNum, endNum) {
     //mengambil data dari json
     fetch("js/data.json")
         .then((response) => response.json())
         .then((data) => {
-            const containerCard = document.querySelector(".container_card");
-            const cardTemplate = document.getElementById("card_template");
-            containerCard.innerHTML = "";
-            //memotong dan menampilkan data
-            function parsingData(end) {
-                let start = 0;
-                if (end <= data.length) {
-                    //memotong data dari json
-                    let dataSlice = data.slice(start, end);
-                    //mentampilkan data hasil potongan data
-                    dataSlice.forEach((dataSlice) => {
-                        const div = cardTemplate.content.cloneNode(true);
-                        div.getElementById("judul_content").textContent =
-                            dataSlice.title;
-                        containerCard.append(div);
-                    });
-                } else {
-                    const dataLength = data.length;
-                    end = dataLength;
-                    parsingData(end);
-                }
+            function displayData(startNum, endNum) {
+                // console.log({ startNum, endNum });
+                // const startNum = 0;
+                // const endNum = 2;
+                const dataSlice = data.slice(startNum, endNum);
+                dataSlice.forEach((data) => {
+                    // console.log(data);
+                    const div = cardTemplate.content.cloneNode(true);
+                    const getId = div.getElementById("card_items_template");
+                    getId.classList.replace("loading", "loaded");
+                    div.getElementById("judul_content").textContent = data.id;
+                    containerCard.append(div);
+                });
+                cardLoad.append(cardTemplate.content.cloneNode(true));
+                renderCard();
             }
-            parsingData(end);
-
-            // data.forEach((data) => {
-            //     const div = cardTemplate.content.cloneNode(true);
-            //     div.getElementById("judul_content").textContent = data.title;
-            //     div.getElementById("gambar_content").setAttribute(
-            //         "data-src",
-            //         `` + data.coverImage + ``
-            //     );
-            // div.getElementById("gambar_content").src = data.coverImage;
-            // div.getElementById("link_content").href = data.link;
-            // div.getElementById("creator_content").textContent = data.creator;
-            // div.getElementById("created_at").textContent = data.details;
-            // containerCard.append(div);
-            // window.addEventListener("load", () => {
-            //     renderCard();
-            // })
-            // setTimeout(function () {
-            //     renderCard();
-            // }, 3000);
-            // });
+            displayData(startNum, endNum);
         });
-};
-renderCard = () => {
-    const skeletons_animasi = document.querySelectorAll(".skeleton_animasi");
-    skeletons_animasi.forEach((skeleton_animasi) => {
-        skeleton_animasi.classList.remove("animate-pulse");
-        const skeletons_remover = skeleton_animasi.querySelectorAll(
-            ".hidden,.bg-gray-300"
-        );
-        skeletons_remover.forEach((skeletons_remover) => {
-            skeletons_remover.classList.remove("hidden");
-            skeletons_remover.classList.remove("bg-gray-300");
-        });
-    });
-};
-
-$(window).on("load", function () {
-    const targets = document.querySelectorAll(".skeleton_gambar");
+}
+lazyLoadImg = () => {
+    const targets = document.querySelectorAll(".loaded");
     targets.forEach((target) => {
+        //menggambil data image
         const targetimg = target.querySelectorAll("img");
         const lazyLoad = (target) => {
             const io = new IntersectionObserver((entries, observer) => {
-                // var end = 0;
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
-                        // console.log(entry);
                         const img = entry.target;
                         const src = img.getAttribute("data-src");
                         img.setAttribute("src", src);
@@ -146,8 +108,47 @@ $(window).on("load", function () {
         };
         targetimg.forEach(lazyLoad);
     });
-});
-
-setInterval(() => {
-    renderCard();
-}, "1000");
+};
+renderCard = () => {
+    const loaded = document.querySelectorAll(".loaded");
+    loaded.forEach((loaded) => {
+        let skeleton_animasi = loaded.querySelectorAll(".skeleton_animasi");
+        skeleton_animasi.forEach((skeletons_remover) => {
+            skeletons_remover.classList.remove("animate-pulse");
+            const skeleton_remover_class = skeletons_remover.querySelectorAll(
+                ".hidden,.bg-gray-300"
+            );
+            skeleton_remover_class.forEach((skeleton_remover_class) => {
+                skeleton_remover_class.classList.remove("hidden");
+                skeleton_remover_class.classList.remove("bg-gray-300");
+            });
+        });
+    });
+};
+function lazyGetData() {
+    const target = document.querySelector(".containerLoad");
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                startNum += 10;
+                endNum += 10;
+                function delskeleton() {
+                    const containerLoad =
+                        document.querySelector(".containerLoad");
+                    containerLoad.innerHTML = "";
+                }
+                console.log(startNum, endNum);
+                displayJson(startNum, endNum);
+                setTimeout(() => {
+                    delskeleton();
+                }, 3000);
+                // observer.disconnect();
+            }
+        });
+    });
+    observer.observe(target);
+}
+let startNum = 0;
+let endNum = 10;
+// displayJson(startNum, endNum);
+// lazyGetData();
