@@ -1,0 +1,105 @@
+< !DOCTYPE html > <html lang="en"> < head > <meta charset="UTF-8" /> < meta name = "viewport" content = "width=device-width, initial-scale=1.0" /> <meta http-equiv="X-UA-Compatible" content="ie=edge" /> < title > Document < /title>
+    </head > <body> < div > Lorem,
+ipsum dolor sit amet consectetur adipisicing elit.Excepturi rerum nemo itaque !Praesentium unde,
+et veritatis harum aspernatur pariatur fugit.</div>
+<div>
+    $content = new App\Models\content;
+    $content - > judul_content = "judul kedua"
+    $content - > slug_content = "judul-kedua"
+    $content - > isi_content = "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Excepturi rerum nemo itaque! Praesentium unde, et veritatis harum aspernatur pariatur fugit."
+    $content - > gambar_content = "image/anime.jpg"
+    $content - > created_by = "farid"
+    $content - > save();
+</div></body> < /html>
+
+{{-- @foreach($contents as $content)
+<div class="flex relative overflow-hidden shadow-lg rounded-lg h-full w-full">
+    <div class="flex flex-row">
+        <div class="w-1/2 ">
+ < img
+class = "w-full object-cover bg-no-repeat rounded-l-lg md:object-scale-down"
+src ="{{ asset('image/anime.jpg') }}"
+alt = "Sunset in the mountains"
+/>
+        </div > <div class="flex flex-col w-1/2 m-2">
+    <p class="text-left font-bold text-lg overflow-hidden text-ellipsis line-clamp-1 lg:line-clamp-2"> {
+        {
+            $content -> judul_content
+        }
+    } </p>
+    <div class="flex flex-col">
+        <span class="text-sm">
+            By
+            <span class="text-blue-500"> {
+                {
+                    $content -> created_by
+                }
+            } </span>
+        </span>
+        <span class="text-sm"> {
+            {
+                $content -> created_at
+            }
+        } </span>
+    </div>
+    <a href="/content/{{ $content->slug_content }}" class="absolute inset-0 z-1 pointer-events-auto bg-transparent text-transparent" title="{{ $content->judul_content }}"></a>
+</div></div> < /div>
+@endforeach --}} {{--
+<div class="flex relative overflow-hidden shadow-lg rounded-lg h-full w-full">
+    <div class="flex flex-row w-full relative animate-pulse">
+        <div class="w-1/2 m - 2 ">
+ < div class = "h-full rounded-md bg-gray-200 shrink-0" > </div>
+</div>
+<div class="flex flex-col space-y-4 w-1/2 m-3">
+    <div class="w-full h-4 rounded-md shrink-0 line-clamp-1 bg-gray-200"></div>
+    <div class="flex flex-col space-y-2">
+        <span class="bg-gray-200 text-sm h-2 w-[70%] rounded-md" alt="nothing"></span>
+        <span class="bg-gray-200 text-sm h-2 w-[70%] rounded-md" alt="nothing"></span>
+    </div>
+</div></div> < /div>
+--}}
+ {{-- @foreach($contents as $content)
+        <div class="flex relative overflow-hidden shadow-lg rounded-lg h-full w-full">
+            <div class="flex flex-row">
+                <div class="w-1/2 ">
+ < img class = "w-full object-cover bg-no-repeat rounded-l-lg md:object-scale-down"
+src ="{{ asset('image/anime.jpg') }}"alt = "Sunset in the mountains" > </div>
+    <div class="flex flex-col w-1/2 m-2">
+        <p class="text-left font-bold text-lg overflow-hidden text-ellipsis line-clamp-1 lg:line-clamp-2"> {
+            {
+                $content -> judul_content
+            }
+        } </p>
+        <div class="flex flex-col">
+            <span class="text-sm">
+                By
+                <span class="text-blue-500"> {
+                    {
+                        $content -> created_by
+                    }
+                } </span>
+            </span>
+            <span class="text-sm"> {
+                {
+                    $content -> created_at
+                }
+            } </span>
+        </div>
+        <a href="/content/{{ $content->slug_content }}" class="absolute inset-0 z-1 pointer-events-auto bg-transparent text-transparent" title="{{ $content->judul_content }}"></a>
+    </div>
+</div></div>
+@endforeach --}}{{-- skeleton card --}}{{-- <div class="flex h-52 flex-row rounded-lg m-2">
+        <div class="flex relative overflow-hidden shadow-lg rounded-lg h-full w-full">
+            <div class="flex flex-row w-full relative animate-pulse">
+                <div class="w-1/2 m-2 rounded-md bg-gray-200 shrink-0">
+                </div>
+                <div class="flex flex-col space-y-4 w-1/2 m-3">
+                    <div class="w-full h-4 rounded-md shrink-0 line-clamp-1 bg-gray-200"></div>
+                    <div class="flex flex-col space-y-2">
+                        <span class="bg-gray-200 text-sm h-2 w-[70%] rounded-md" alt="nothing"></span>
+                        <span class="bg-gray-200 text-sm h-2 w-[70%] rounded-md" alt="nothing"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> --}}
