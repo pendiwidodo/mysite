@@ -92,24 +92,18 @@ function displayJson(startNum, endNum) {
   fetch("js/data.json").then(function (response) {
     return response.json();
   }).then(function (data) {
-    function displayData(startNum, endNum) {
-      // console.log({ startNum, endNum });
-      // const startNum = 0;
-      // const endNum = 2;
-      var dataSlice = data.slice(startNum, endNum);
-      dataSlice.forEach(function (data) {
-        // console.log(data);
-        var div = cardTemplate.content.cloneNode(true);
-        var getId = div.getElementById("card_items_template");
-        getId.classList.replace("loading", "loaded");
-        div.getElementById("judul_content").textContent = data.id;
-        containerCard.append(div);
-      });
+    var dataSlice = data.slice(startNum, endNum);
+    dataSlice.forEach(function (data) {
+      var div = cardTemplate.content.cloneNode(true);
+      var getId = div.getElementById("card_items_template");
+      getId.classList.replace("loading", "loaded");
+      div.getElementById("judul_content").textContent = data.id;
+      containerCard.append(div);
+    });
+    renderCard();
+    for (var i = 0; i < 2; i++) {
       cardLoad.append(cardTemplate.content.cloneNode(true));
-      cardLoad.append(cardTemplate.content.cloneNode(true));
-      renderCard();
     }
-    displayData(startNum, endNum);
   });
 }
 lazyLoadImg = function lazyLoadImg() {
@@ -147,33 +141,31 @@ renderCard = function renderCard() {
     });
   });
 };
-function lazyGetData() {
+lazyGetData = function lazyGetData() {
   var target = document.querySelector(".containerLoad");
   var observer = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       if (entry.isIntersecting) {
-        var delskeleton = function delskeleton() {
-          var containerLoad = document.querySelector(".containerLoad");
-          containerLoad.innerHTML = "";
-        };
         startNum += 10;
         endNum += 10;
+        // function delskeleton() {
+        //     const containerLoad =
+        //         document.querySelector(".containerLoad");
+        //     containerLoad.innerHTML = "";
+        // }
         console.log(startNum, endNum);
         displayJson(startNum, endNum);
-        setTimeout(function () {
-          delskeleton();
-        }, 3000);
+        // setTimeout(() => {
+        //     delskeleton();
+        // }, 3000);
         // observer.disconnect();
       }
     });
   });
 
   observer.observe(target);
-}
-var startNum = 0;
-var endNum = 10;
-displayJson(startNum, endNum);
-// lazyGetData();
+};
+displayJson(0, 10);
 
 /***/ }),
 

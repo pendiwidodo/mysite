@@ -61,30 +61,26 @@ $(window).on("load", function () {
 const containerCard = document.querySelector(".container_card");
 const cardTemplate = document.getElementById("card_template");
 const cardLoad = document.querySelector(".containerLoad");
+let startNum = 0;
+let endNum = 10;
 //berfungsi untuk memparsing dan menampilkan data content
-function displayJson(startNum, endNum) {
+function getDataContent(startNum, endNum) {
     //mengambil data dari json
     fetch("js/data.json")
         .then((response) => response.json())
         .then((data) => {
-            function displayData(startNum, endNum) {
-                // console.log({ startNum, endNum });
-                // const startNum = 0;
-                // const endNum = 2;
-                const dataSlice = data.slice(startNum, endNum);
-                dataSlice.forEach((data) => {
-                    // console.log(data);
-                    const div = cardTemplate.content.cloneNode(true);
-                    const getId = div.getElementById("card_items_template");
-                    getId.classList.replace("loading", "loaded");
-                    div.getElementById("judul_content").textContent = data.id;
-                    containerCard.append(div);
-                });
+            const dataSlice = data.slice(startNum, endNum);
+            dataSlice.forEach((data) => {
+                const div = cardTemplate.content.cloneNode(true);
+                const getDiv = div.querySelector(".Card");
+                getDiv.classList.replace("loading", "loaded");
+                div.getElementById("judul_content").textContent = data.id;
+                containerCard.append(div);
+            });
+            // renderCard();
+            for (let i = 0; i < 2; i++) {
                 cardLoad.append(cardTemplate.content.cloneNode(true));
-                cardLoad.append(cardTemplate.content.cloneNode(true));
-                renderCard();
             }
-            displayData(startNum, endNum);
         });
 }
 lazyLoadImg = () => {
@@ -96,6 +92,7 @@ lazyLoadImg = () => {
             const io = new IntersectionObserver((entries, observer) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
+                        renderCard();
                         const img = entry.target;
                         const src = img.getAttribute("data-src");
                         img.setAttribute("src", src);
@@ -124,30 +121,18 @@ renderCard = () => {
         });
     });
 };
-function lazyGetData() {
+lazyGetData = () => {
     const target = document.querySelector(".containerLoad");
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
-                startNum += 10;
-                endNum += 10;
-                function delskeleton() {
-                    const containerLoad =
-                        document.querySelector(".containerLoad");
-                    containerLoad.innerHTML = "";
-                }
-                console.log(startNum, endNum);
-                displayJson(startNum, endNum);
-                setTimeout(() => {
-                    delskeleton();
-                }, 3000);
-                // observer.disconnect();
+               
+                observer.disconnect();
             }
         });
     });
     observer.observe(target);
-}
-let startNum = 0;
-let endNum = 10;
-displayJson(startNum, endNum);
+};
+
+getDataContent(startNum,endNum );
 // lazyGetData();
