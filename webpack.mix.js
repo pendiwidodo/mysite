@@ -12,19 +12,12 @@ const mix = require("laravel-mix");
 
 // KHUSUS TAILWINDCSS
 mix.js("resources/js/app.js", "public/js")
-    .postCss("resources/css/app.css", "public/css/tailwindcss/app.css", [
+    .postCss("resources/css/app.css", "public/css", [
         require("tailwindcss"),
     ])
-    // CUSTOM AND OWL CARAUSEL
-    .css(
-        "./node_modules/owl.carousel/dist/assets/owl.carousel.min.css",
-        "public/css/app.css"
-    )
-    .css(
-        "./node_modules/owl.carousel/dist/assets/owl.theme.default.min.css",
-        "public/css/app.css"
-    )
-    .css("resources/css/custom.css", "public/css/app.css");
+    .sass("node_modules/owl.carousel/src/scss/owl.carousel.scss","/public/css")
+    .sass("node_modules/owl.carousel/src/scss/owl.theme.default.scss","/public/css")
+    .css("resources/css/custom.css", "public/css");
 
 // jquery caller
 mix.autoload({
@@ -38,8 +31,8 @@ mix.browserSync({
     proxy: "https://" + domain,
     host: domain,
     https: {
-        key: homedir + "/.valet/Certificates/" + domain + ".key",
-        cert: homedir + "/.valet/Certificates/" + domain + ".crt",
+        key: homedir + "/.config/valet/Certificates/" + domain + ".key",
+        cert: homedir + "/.config/valet/Certificates/" + domain + ".crt",
     },
     notify: false, // Enable or disable notifications
 });

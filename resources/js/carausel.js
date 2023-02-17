@@ -72,14 +72,15 @@ function getDataContent(startNum, endNum) {
             const dataSlice = data.slice(startNum, endNum);
             dataSlice.forEach((data) => {
                 const div = cardTemplate.content.cloneNode(true);
-                const getDiv = div.querySelector(".Card");
+                const getDiv = div.querySelector(".card");
                 getDiv.classList.replace("loading", "loaded");
                 div.getElementById("judul_content").textContent = data.id;
                 containerCard.append(div);
             });
-            // renderCard();
+            renderCard();
             for (let i = 0; i < 2; i++) {
-                cardLoad.append(cardTemplate.content.cloneNode(true));
+                let cardLoad = cardTemplate.append(cardTemplate.content.cloneNode(true));
+                console.log(cardLoad)
             }
         });
 }
@@ -134,5 +135,14 @@ lazyGetData = () => {
     observer.observe(target);
 };
 
-getDataContent(startNum,endNum );
-// lazyGetData();
+function tampilDataContent(){
+    $(document).ready(function(){
+        url="/js/data.json";
+       $.ajax({
+        dataType: 'json',
+        url: url,
+        data: data,
+        success: success
+        });
+    })
+}
