@@ -63,7 +63,7 @@ const cardTemplate = document.getElementById("card_template");
 const cardLoad = document.querySelector(".containerLoad");
 let startNum = 0;
 let endNum = 10;
-//menampilkan skeleton load
+//menampilkan skeleton loading
 function displayLoading(parentPlaceLoad,childContentLoad,Boolean,jumlahContent){
     for (let i = 0; i < jumlahContent; i++) {
         parentPlaceLoad.append(childContentLoad.content.cloneNode(Boolean));
@@ -107,8 +107,7 @@ function getDataContent(startNum, endNum) {
         })
          .catch((error) => {
             console.error('There has been a problem with your fetch operation:', error);
-        })
-        ;
+        });
 };
 
 
