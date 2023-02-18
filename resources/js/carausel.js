@@ -63,32 +63,60 @@ const cardTemplate = document.getElementById("card_template");
 const cardLoad = document.querySelector(".containerLoad");
 let startNum = 0;
 let endNum = 10;
+//menampilkan skeleton load
+function displayLoading(parentPlaceLoad,childContentLoad,Boolean,jumlahContent){
+    for (let i = 0; i < jumlahContent; i++) {
+        parentPlaceLoad.append(childContentLoad.content.cloneNode(Boolean));
+    }
+};
+// displayLoading(containerCard,cardTemplate,true,10)
 //berfungsi untuk memparsing dan menampilkan data content
-function getDataContent(startNum, endNum) {
+function getDataContent(startNum, endNum) { 
     //mengambil data dari json
     fetch("js/data.json")
+        .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not OK');
+                }
+                return response;
+            })
         .then((response) => response.json())
         .then((data) => {
             const dataSlice = data.slice(startNum, endNum);
+            // containerCard.innerHTML = "";
             dataSlice.forEach((data) => {
+                // console.log(data)
                 const div = cardTemplate.content.cloneNode(true);
                 const getDiv = div.querySelector(".card");
                 getDiv.classList.replace("loading", "loaded");
                 div.getElementById("judul_content").textContent = data.id;
                 containerCard.append(div);
             });
-            renderCard();
-            for (let i = 0; i < 2; i++) {
-                let cardLoad = cardTemplate.append(cardTemplate.content.cloneNode(true));
-                console.log(cardLoad)
-            }
-        });
-}
-lazyLoadImg = () => {
-    const targets = document.querySelectorAll(".loaded");
-    targets.forEach((target) => {
+                if(endNum > data.length){
+                    console.log("true",endNum)
+                    return hapusLoading();
+                }else{
+                    console.log("false",endNum)
+                    hapusLoading();
+                    lazyGetData();
+                }
+            displayLoading(cardLoad,cardTemplate,true,2);
+            setTimeout(function(){
+                renderCard();
+            }, 2000);
+        })
+         .catch((error) => {
+            console.error('There has been a problem with your fetch operation:', error);
+        })
+        ;
+};
+
+
+function lazyLoadImg (){
+    const imgTargets = document.querySelectorAll(".loaded");
+    imgTargets.forEach((target) => {
         //menggambil data image
-        const targetimg = target.querySelectorAll("img");
+        const targetImg = target.querySelectorAll("img");
         const lazyLoad = (target) => {
             const io = new IntersectionObserver((entries, observer) => {
                 entries.forEach((entry) => {
@@ -103,10 +131,27 @@ lazyLoadImg = () => {
             });
             io.observe(target);
         };
-        targetimg.forEach(lazyLoad);
+        targetImg.forEach(lazyLoad);
     });
 };
-renderCard = () => {
+
+function lazyGetData (){
+    const target = cardLoad;
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                startNum+=10;
+                endNum+=10;
+                getDataContent(startNum,endNum);
+                observer.disconnect();
+                console.log("lazydata aktive")
+            }
+        });
+    });
+    observer.observe(target);
+};
+
+function renderCard (){
     const loaded = document.querySelectorAll(".loaded");
     loaded.forEach((loaded) => {
         let skeleton_animasi = loaded.querySelectorAll(".skeleton_animasi");
@@ -122,27 +167,10 @@ renderCard = () => {
         });
     });
 };
-lazyGetData = () => {
-    const target = document.querySelector(".containerLoad");
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-               
-                observer.disconnect();
-            }
-        });
-    });
-    observer.observe(target);
-};
 
-function tampilDataContent(){
-    $(document).ready(function(){
-        url="/js/data.json";
-       $.ajax({
-        dataType: 'json',
-        url: url,
-        data: data,
-        success: success
-        });
-    })
+function hapusLoading(){
+    setTimeout(() => {
+        cardLoad.innerHTML="";
+    }, 3000);
 }
+getDataContent(startNum,endNum);
